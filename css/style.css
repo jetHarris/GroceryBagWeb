@@ -1,0 +1,33 @@
+tr:hover{
+    cursor: default;
+}
+.highlight:hover{
+    cursor: pointer;
+    background-color: lightblue;
+}
+body{
+    padding-top:50px;
+}
+
+.id{
+    width:20px;
+
+}
+
+.item{
+    width:120px;
+}
+
+.price{
+    width:50px;
+    text-align: center;
+}
+
+.checkmark{
+    width:60px;
+    text-align: center;
+}
+.checkmarktax{
+    width:40px;
+    text-align: center;
+}
