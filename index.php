@@ -34,13 +34,14 @@
 </nav>
 
 <div class="container">
-<h1>Grocery Bag</h1>
-<img src="img/baglogo.jpg"/>
-<div>
-    <p>Filter:
-    <input type="text" id="filter" onkeyup="filterInput(this)"/></p>
-</div>
-<div>
+<img src="img/baglogo.jpg" width="300px" height="200px"/>
+
+<div id="mainContainer">
+    <div id="itemBankList">
+        <div>
+            <p>Filter:
+                <input type="text" id="filter" onkeyup="filterInput(this)"/></p>
+        </div>
 <?php require ("Connection.php");
 session_start();
 $name = $_SESSION['name'];
@@ -58,7 +59,7 @@ $output = '<table border="1"><thead><tr><th class="id">ID</th>'.
     '<th class="checkmarktax">HST</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
 while($row = mysqli_fetch_assoc($check)){
-    $output .='<tr class="highlight">';
+    $output .='<tr class="highlight" onclick="rowClicked(this)">';
     $output .= '<td class="id">'.$row['id'].'</td>';
     $output .= '<td class="item">'.$row['item_name'].'</td>';
     $output .= '<td class="price">$'.$row['price'].'</td>';
@@ -72,9 +73,49 @@ while($row = mysqli_fetch_assoc($check)){
 $output .='</tbody></table></div>';
 echo $output;
 ?>
+    </div>
+
+<div id="editItemBankForm" style="display:none;">
+    <form action="/edit-item" method="post" id="edit_item_form">
+        <div>
+            <h3 id="item_id_div"></h3>
+        </div>
+        <div>
+            <label for="name">Item Name:</label>
+            <input type="text" id="name_input" name="item_name" />
+        </div>
+        <div>
+            <label for="mail">Price:</label>
+            <input type="text" id="price_input" name="price" />
+        </div>
+        <div>
+            <label for="msg">Sales Price:</label>
+            <input type="text" id="sale_price_input" name="sales_price" />
+        </div>
+        <div>
+            <label for="msg">On Sale:</label>
+            <input type="checkbox" name="on_sale" id="on_sale_input"/>
+        </div>
+        <div>
+            <label for="msg">GST:</label>
+            <input type="checkbox" name="gst" id ="gst_input"/>
+        </div>
+        <div>
+            <label for="msg">PST:</label>
+            <input type="checkbox" name="pst" id = "pst_input"/>
+        </div>
+        <div>
+            <label for="msg">HST:</label>
+            <input type="checkbox" name="hst" id ="hst_input" />
+        </div>
+        <div>
+            <input type="submit" value="Save"/>
+            <input type="button" value="Cancel" onclick="cancelClick();"/>
+        </div>
+    </form>
 </div>
 </div>
-<div id="blank"></div>
+</div>
 </body>
 </html>
 
