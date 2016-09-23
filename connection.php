@@ -1,16 +1,18 @@
 <?php
 $username= "root";
-$password="onomatopeia";
+$password="j4m6cd781";
 $host="localhost";
 $dbName ="grocerylist";
 
-$conn = mysqli_connect( $host, $username, $password, $dbName);
+//echo("dbName: ".$dbName."<br>");
+//echo "In connection <br>";
+$conn = mysqli_connect( $host, $username, $password, $dbName) or die("Connection Failed; Check Connection");
 mysqli_select_db($conn, $dbName);
-/* if($conn->connect_error){
+/*if($conn->connect_error){
 	die("Connection failed: " .$conn->connect_error );
 	echo "Error Connecting <br>";
 }
 else
-	echo "Connected to MySQL <br>"; */
-
+	echo "Connected to MySQL <br>";
+*/
 ?>

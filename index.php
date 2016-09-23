@@ -42,7 +42,9 @@
 </div>
 <div>
 <?php require ("Connection.php");
-
+session_start();
+$name = $_SESSION['name'];
+echo "Welcome ".$name."!";
 $sql= "SELECT * from grocerylist.items;";
 $check = mysqli_query($conn, $sql);
 
