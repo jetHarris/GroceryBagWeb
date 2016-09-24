@@ -54,7 +54,7 @@
                     $msg = "Item updated successfully!";
                 }
                 else {
-                    $msg =  "Error updating record: " . $conn->error;
+                    $msg =  "Error updating item: " . $conn->error;
                 }
             }
 
