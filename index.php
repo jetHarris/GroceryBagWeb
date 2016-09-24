@@ -37,12 +37,36 @@
 <img src="img/baglogo.jpg" width="300px" height="200px"/>
 
 <div id="mainContainer">
+    <div>
+        <h3 id="update_msg"><?php require ("Connection.php");
+            if (isset($_POST['item_name'])){
+                $new_item_name = $_POST['item_name'];
+                $new_price = floatval((str_replace('$', '',$_POST['price'] )));
+                $new_sale_price = floatval((str_replace('$', '',$_POST['sales_price'] )));
+                $on_sale = isset($_POST['on_sale']) ? 1:0;
+                $has_GST = isset($_POST['gst']) ? 1:0;
+                $has_PST = isset($_POST['pst']) ? 1:0;
+                $has_HST = isset($_POST['hst']) ? 1:0;
+                $id = $_POST['item_id'];
+                $update = "UPDATE Items SET item_name = '$new_item_name', price = $new_price, sale_price = $new_sale_price, use_sale_price=$on_sale, GST=$has_GST, PST=$has_PST, HST=$has_HST WHERE id=$id;";
+
+                if ($conn->query($update) === TRUE) {
+                    $msg = "Item updated successfully!";
+                }
+                else {
+                    $msg =  "Error updating record: " . $conn->error;
+                }
+            }
+
+
+            echo $msg ?></h3>
+    </div>
     <div id="itemBankList">
         <div>
             <p>Filter:
                 <input type="text" id="filter" onkeyup="filterInput(this)"/></p>
         </div>
-<?php require ("Connection.php");
+<?php
 
 $sql= "SELECT * from grocerylist.items;";
 $check = mysqli_query($conn, $sql);
@@ -74,41 +98,42 @@ echo $output;
     </div>
 
 <div id="editItemBankForm" style="display:none;">
-    <form action="/edit-item" method="post" id="edit_item_form">
+    <form action="index.php" method="post" id="edit_item_form">
         <div>
             <h3 id="item_id_div"></h3>
         </div>
         <div>
-            <label for="name">Item Name:</label>
+            <label>Item Name:</label>
             <input type="text" id="name_input" name="item_name" />
         </div>
         <div>
-            <label for="mail">Price:</label>
+            <label>Price:</label>
             <input type="text" id="price_input" name="price" />
         </div>
         <div>
-            <label for="msg">Sales Price:</label>
+            <label>Sales Price:</label>
             <input type="text" id="sale_price_input" name="sales_price" />
         </div>
         <div>
-            <label for="msg">On Sale:</label>
+            <label>On Sale:</label>
             <input type="checkbox" name="on_sale" id="on_sale_input"/>
         </div>
         <div>
-            <label for="msg">GST:</label>
+            <label>GST:</label>
             <input type="checkbox" name="gst" id ="gst_input"/>
         </div>
         <div>
-            <label for="msg">PST:</label>
+            <label>PST:</label>
             <input type="checkbox" name="pst" id = "pst_input"/>
         </div>
         <div>
-            <label for="msg">HST:</label>
+            <label>HST:</label>
             <input type="checkbox" name="hst" id ="hst_input" />
         </div>
         <div>
             <input type="submit" value="Save"/>
             <input type="button" value="Cancel" onclick="cancelClick();"/>
+            <input type="hidden" value="-1" id="selected_item_id" name="item_id"/>
         </div>
     </form>
 </div>

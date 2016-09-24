@@ -50,11 +50,13 @@ function rowClicked(row){
     txtPrice.value =  cells[2].innerHTML;
     txtSalePrice.value = cells[3].innerHTML;
     $('#item_id_div')[0].innerHTML ='Item ID: ' +  cells[0].innerHTML;
+    $('#selected_item_id').val(cells[0].innerHTML);
     $('#on_sale_input').attr("checked", cells[4].innerHTML === '✅');
     $('#gst_input').attr("checked", cells[5].innerHTML === '✅');
     $('#pst_input').attr("checked", cells[6].innerHTML === '✅');
     $('#hst_input').attr("checked", cells[7].innerHTML === '✅');
 
+    $('#update_msg')[0].innerHTML = '';
     $('#itemBankList').hide();
     $('#editItemBankForm').show();
 }
