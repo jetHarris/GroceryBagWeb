@@ -76,6 +76,8 @@
         </div>
 <?php require ("Connection.php");
 session_start();
+//$userID = $_SESSION['userID'];  //for when we need it
+//$_SESSION['userID']= $userID;
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 
