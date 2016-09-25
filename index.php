@@ -44,6 +44,8 @@
         </div>
 <?php require ("Connection.php");
 session_start();
+
+//$userID = $_SESSION['userID'];   //until we have the code to grab it.
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 $sql= "SELECT * from grocerylist.items;";
