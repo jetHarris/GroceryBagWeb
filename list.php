@@ -143,11 +143,19 @@
             $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
             $output .= '<td class="item">'.$row['quantity'].'</td>';
             $output .='</tr>';
-            
+
             $getTaxes= "SELECT GST, PST, HST FROM WHERE id = 1";
-            $gst =0.05;
-            $pst = 0.08;
-            $hst = 0.13;
+            $result = mysqli_query($sql);
+            $gst =0.0;
+            $pst = 0.0;
+            $hst = 0.0;
+
+            $result1 = mysqli_query($conn, $getTaxes);
+            $row2 = mysqli_fetch_assoc($result1);
+
+            $gst =$row['GST'];
+            $pst = $row['PST'];
+            $hst =$row['HST'];
 
             $tax = 0;
             if($row['GST'] === '1')
