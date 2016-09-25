@@ -107,57 +107,76 @@
             echo $msg ?></h3>
     </div>
     <div id="table-list">
-    <?php require ("Connection.php");
+        <?php require ("Connection.php");
 
-    $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity
+        $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity
     FROM grocerylist.items as i
     INNER JOIN grocerylist.listitems as li
         ON i.id = li.itemID
     INNER JOIN grocerylist.lists as l
         ON li.listID = l.id
     WHERE l.id = 1;";
-    $check = mysqli_query($conn, $sql);
+        $check = mysqli_query($conn, $sql);
 
-    $sub_total = 0;
+        $sub_total = 0;
+        $total_tax = 0;
 
-    $output = '<table border="1"><thead><tr><th class="id">ID</th>'.
-        '<th class="item">Item</th>'.
-        '<th class="price">Price</th>'.
-        '<th class="price">Sale Price</th>'.
-        '<th class="checkmark">On Sale</th>'.
-        '<th class="checkmarktax">GST</th>'.
-        '<th class="checkmarktax">PST</th>'.
-        '<th class="checkmarktax">HST</th>'.
-        '<th class="item">Quantity</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
+        $output = '<table border="1"><thead><tr><th class="id">ID</th>'.
+            '<th class="item">Item</th>'.
+            '<th class="price">Price</th>'.
+            '<th class="price">Sale Price</th>'.
+            '<th class="checkmark">On Sale</th>'.
+            '<th class="checkmarktax">GST</th>'.
+            '<th class="checkmarktax">PST</th>'.
+            '<th class="checkmarktax">HST</th>'.
+            '<th class="item">Quantity</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
-    while($row = mysqli_fetch_assoc($check)){
-        $output .='<tr class="highlight" onclick="rowClickedList(this)">';
-        $output .= '<td class="id">'.$row['id'].'</td>';
-        $output .= '<td class="item">'.$row['item_name'].'</td>';
-        $output .= '<td class="price">$'.$row['price'].'</td>';
-        $output .= '<td class="price">$'.$row['sale_price'].'</td>';
-        $output .= '<td class="checkmark">'.($row['use_sale_price'] === '1' ? '&#9989;':'&#10008;').'</td>';
-        $output .= '<td class="checkmarktax">'.($row['GST'] === '1' ? '&#9989;':'&#10008;').'</td>';
-        $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
-        $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
-        $output .= '<td class="item">'.$row['quantity'].'</td>';
-        $output .='</tr>';
+        while($row = mysqli_fetch_assoc($check)){
+            $output .='<tr class="highlight" onclick="rowClickedList(this)">';
+            $output .= '<td class="id">'.$row['id'].'</td>';
+            $output .= '<td class="item">'.$row['item_name'].'</td>';
+            $output .= '<td class="price">$'.$row['price'].'</td>';
+            $output .= '<td class="price">$'.$row['sale_price'].'</td>';
+            $output .= '<td class="checkmark">'.($row['use_sale_price'] === '1' ? '&#9989;':'&#10008;').'</td>';
+            $output .= '<td class="checkmarktax">'.($row['GST'] === '1' ? '&#9989;':'&#10008;').'</td>';
+            $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
+            $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
+            $output .= '<td class="item">'.$row['quantity'].'</td>';
+            $output .='</tr>';
+            
+            $getTaxes= "SELECT GST, PST, HST FROM WHERE id = 1";
+            $gst =0.05;
+            $pst = 0.08;
+            $hst = 0.13;
 
-        if ($row['use_sale_price'] === '1')
-            $sub_total += floatval($row['sale_price']);
-        else
-            $sub_total += floatval($row['price']);
+            $tax = 0;
+            if($row['GST'] === '1')
+                $tax += 0.05;
+            if($row['PST'] === '1')
+                $tax += 0.08;
+            if($row['HST'] === '1')
+                $tax += 0.13;
 
-    }
-    $output .='</tbody></table></div>';
-    echo $output;
-    ?>
+            if ($row['use_sale_price'] === '1') {
+                $sub_total += floatval($row['sale_price']) * floatval($row['quantity']);
+                $total_tax += (floatval($row['sale_price']) * floatval($row['quantity']))*$tax;
+            }
+            else {
+                $sub_total += floatval($row['price']) * floatval($row['quantity']);
+                $total_tax += (floatval($row['price']) * floatval($row['quantity']))*$tax;
+            }
+
+            $tax = 0;
+
+        }
+        $output .='</tbody></table></div>';
+        echo $output;
+        ?>
         <input type="button" value="Add additional items" onclick="addViewClick();"/>
 
         <div>Subtotal: $<?php  echo number_format((float)$sub_total, 2, '.', ''); ?></div>
-        <?php $taxes = $sub_total*0.13?>
-        <div>Taxes: $<?php  echo number_format((float)$taxes, 2, '.', ''); ?></div>
-        <?php $total = $taxes + $sub_total ?>
+        <div>Taxes: $<?php  echo number_format((float)$total_tax, 2, '.', ''); ?></div>
+        <?php $total = $total_tax + $sub_total ?>
         <div>Total Price: $<?php  echo number_format((float)$total, 2, '.', ''); ?></div>
     </div>
 </div>
