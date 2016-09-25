@@ -25,9 +25,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li class="active"><a href="#about">Item Bank</a></li>
+                <li><a href="list.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -37,6 +37,38 @@
 <img src="img/baglogo.jpg" width="300px" height="200px"/>
 
 <div id="mainContainer">
+    <div>
+        <h3 id="update_msg"><?php require ("Connection.php");
+            if (isset($_POST['item_name'])){
+                $new_item_name = $_POST['item_name'];
+                $new_price = floatval((str_replace('$', '',$_POST['price'] )));
+                $new_sale_price = floatval((str_replace('$', '',$_POST['sales_price'] )));
+                $on_sale = isset($_POST['on_sale']) ? 1:0;
+                $has_GST = isset($_POST['gst']) ? 1:0;
+                $has_PST = isset($_POST['pst']) ? 1:0;
+                $has_HST = isset($_POST['hst']) ? 1:0;
+                $id = $_POST['item_id'];
+                if ($id === '-1'){
+                    $queryToRun = "INSERT INTO Items (item_name, price, sale_price, use_sale_price, GST, PST, HST) VALUES ('$new_item_name', $new_price, $new_sale_price, $on_sale, $has_GST, $has_PST, $has_HST)";
+                }
+                else {
+                    $queryToRun = "UPDATE Items SET item_name = '$new_item_name', price = $new_price, sale_price = $new_sale_price, use_sale_price=$on_sale, GST=$has_GST, PST=$has_PST, HST=$has_HST WHERE id=$id;";
+                }
+                if ($conn->query($queryToRun) === TRUE) {
+                    if ($id === '-1')
+                        $msg = "Item added!";
+                    else
+                        $msg = "Item updated successfully!";
+                }
+                else {
+                    if ($id === '-1')
+                        $msg = "Error adding item: ". $conn->error;
+                    else
+                        $msg =  "Error updating item: " . $conn->error;
+                }
+            }
+            echo $msg ?></h3>
+    </div>
     <div id="itemBankList">
         <div>
             <p>Filter:
@@ -46,6 +78,7 @@
 session_start();
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
+
 $sql= "SELECT * from grocerylist.items;";
 $check = mysqli_query($conn, $sql);
 
@@ -73,44 +106,49 @@ while($row = mysqli_fetch_assoc($check)){
 $output .='</tbody></table></div>';
 echo $output;
 ?>
+        <div>
+            <input type="button" value="Create Item" onclick="createItemClick();" style="margin-top:15px;"/>
+        </div>
     </div>
 
 <div id="editItemBankForm" style="display:none;">
-    <form action="/edit-item" method="post" id="edit_item_form">
+    <form action="index.php" method="post" id="edit_item_form">
         <div>
             <h3 id="item_id_div"></h3>
         </div>
         <div>
-            <label for="name">Item Name:</label>
+            <label>Item Name:</label>
             <input type="text" id="name_input" name="item_name" />
         </div>
         <div>
-            <label for="mail">Price:</label>
+            <label>Price:</label>
             <input type="text" id="price_input" name="price" />
         </div>
         <div>
-            <label for="msg">Sales Price:</label>
+            <label>Sales Price:</label>
             <input type="text" id="sale_price_input" name="sales_price" />
         </div>
         <div>
-            <label for="msg">On Sale:</label>
+            <label>On Sale:</label>
             <input type="checkbox" name="on_sale" id="on_sale_input"/>
         </div>
         <div>
-            <label for="msg">GST:</label>
+            <label>GST:</label>
             <input type="checkbox" name="gst" id ="gst_input"/>
         </div>
         <div>
-            <label for="msg">PST:</label>
+            <label>PST:</label>
             <input type="checkbox" name="pst" id = "pst_input"/>
         </div>
         <div>
-            <label for="msg">HST:</label>
+            <label>HST:</label>
             <input type="checkbox" name="hst" id ="hst_input" />
         </div>
         <div>
-            <input type="submit" value="Save"/>
+            <input type="submit" value="Save" id="update_item" name="update_item" style="display: none;"/>
+            <input type="submit" value="Add" id="add_item" name="add_item" style="display: none;"/>
             <input type="button" value="Cancel" onclick="cancelClick();"/>
+            <input type="hidden" value="-1" id="selected_item_id" name="item_id"/>
         </div>
     </form>
 </div>
