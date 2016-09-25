@@ -38,6 +38,66 @@ function filterInput(filter){
     $('#itemBank')[0].innerHTML = newTable;
 }
 
+function rowClickedList(row){
+    var jRow = $(row);
+
+    var txtItemName = $('#name_input')[0];
+    var txtPrice = $('#price_input')[0];
+    var txtSalePrice = $('#sale_price_input')[0];
+
+    var cells = jRow.find('td');
+    txtItemName.value = cells[1].innerHTML;
+    txtPrice.value =  cells[2].innerHTML;
+    txtSalePrice.value = cells[3].innerHTML;
+    $('#item_id_div')[0].innerHTML ='Item ID: ' +  cells[0].innerHTML;
+    $('#selected_item_id').val(cells[0].innerHTML);
+    $('#on_sale_input').attr("checked", cells[4].innerHTML === '✅');
+    $('#gst_input').attr("checked", cells[5].innerHTML === '✅');
+    $('#pst_input').attr("checked", cells[6].innerHTML === '✅');
+    $('#hst_input').attr("checked", cells[7].innerHTML === '✅');
+
+    $('#update_msg')[0].innerHTML = '';
+    $('#editItemListForm').show();
+    $('#table-list').hide();
+}
+
+function cancelListClick(){
+    $('#editItemListForm').hide();
+    $('#table-list').show();
+    $('#addItemForm').hide();
+}
+
+function removeClick(){
+    $('#delete_input')[0].value = "yes";
+    $('#submit-button')[0].click();
+}
+
+function addViewClick(){
+    $('#editItemListForm').hide();
+    $('#table-list').show();
+    $('#addItemForm').show();
+}
+
+function addItemClick(){
+    $('#name_input')[0].value = "add";
+    $('#submit-button')[0].click();
+}
+function toggleCheckbox(element)
+{
+    if (element.checked == true)
+    {
+        var myId = element.id;
+        $('#adding_input')[0].value = $('#adding_input')[0].value + " " + element.id;
+    }
+    else
+    {
+        var myId = element.id;
+        var temp = $('#adding_input')[0].value;
+        temp = temp.replace(myId +' ', '');
+        $('#adding_input')[0].value = temp;
+    }
+}
+
 function rowClicked(row){
     var jRow = $(row);
 
