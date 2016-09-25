@@ -120,9 +120,29 @@ function rowClicked(row){
     $('#update_msg')[0].innerHTML = '';
     $('#itemBankList').hide();
     $('#editItemBankForm').show();
+    $('#update_item').show();
+    $('#add_item').hide();
 }
 
 function cancelClick(){
     $('#editItemBankForm').hide();
     $('#itemBankList').show();
+}
+
+function createItemClick(){
+    $('#name_input')[0].value = '';
+    $('#price_input')[0].value =  '';
+    $('#sale_price_input')[0].value = '';
+    $('#item_id_div')[0].innerHTML = '';
+    $('#selected_item_id').val("-1");       //set to -1 to indicate a new item
+    $('#on_sale_input').attr("checked", false);
+    $('#gst_input').attr("checked", false);
+    $('#pst_input').attr("checked", false);
+    $('#hst_input').attr("checked", false);
+
+    $('#update_msg')[0].innerHTML = '';
+    $('#itemBankList').hide();
+    $('#editItemBankForm').show();
+    $('#update_item').hide();
+    $('#add_item').show();
 }
