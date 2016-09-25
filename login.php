@@ -1,7 +1,6 @@
 <?php require('connection.php');?>
 
 <?php
-var_dump('hits login<br>');
 session_start();
 $error='';
 $firstname='';
@@ -22,14 +21,13 @@ if(isset($_POST['firstname'])){
     if($firstname && $password){
         mysqli_select_db($conn, $dbName) or die("Could not find the database");
         $query = mysqli_query($conn, "Select * from users where firstname='$firstname' AND lastname='$lastname' ") or die("Bad Select statement");
-        $numrows = mysqli_num_rows($query) or die("done messed up");
+        $numrows = mysqli_num_rows($query);// or die("done messed up");
         if($numrows !==0){
            while($row = mysqli_fetch_assoc($query)){
                print_r($row);
                $dbFirst= $row['firstname'];
                $dbLast = $row['lastname'];
                $dbPass = $row['password'];
-               var_dump("YAAAAAAAASSS");
            }
            if($firstname == $dbFirst && $lastname==$dbLast && $password=$dbPass){
                echo "You are logged in";
@@ -42,6 +40,10 @@ if(isset($_POST['firstname'])){
                echo "<br><a href='signin.html'>Try and Sign In Again</a>";
            }
         }//end numrows
+        else if($numrows ==0){
+            echo "User does not exist, please go Sign Up";
+            echo "<br><a href='signup.html'>Sign up</a>";
+        }
     }
     else{
         echo "<br>That User does not exist";
