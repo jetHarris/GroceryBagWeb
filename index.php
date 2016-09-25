@@ -46,6 +46,7 @@
 session_start();
 
 //$userID = $_SESSION['userID'];   //until we have the code to grab it.
+//Err $_SESSION['userID'] = $userID;
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 $sql= "SELECT * from grocerylist.items;";
