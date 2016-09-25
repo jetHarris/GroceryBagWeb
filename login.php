@@ -37,7 +37,7 @@ if(isset($_POST['firstname'])){
                //echo "<br><a href='index.php'>Redirect to Index Page</a>";
            }else{
                echo "Your credentials do not match";
-               echo "<br><a href='signin.html'>Try and Sign In Again</a>";
+               echo "<br><a href='login.html'>Try and Sign In Again</a>";
            }
         }//end numrows
         else if($numrows ==0){
