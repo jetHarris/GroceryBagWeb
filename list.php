@@ -25,9 +25,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <!--<li><a href="#home">Home</a></li>-->
+                <li><a href="index.php">Item Bank</a></li>
 				<li class="active"><a href="#">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -43,7 +42,7 @@
     $check = mysqli_query($conn, $sql);
     $output ='';
     while($row = mysqli_fetch_assoc($check)){
-        $output .= '<p>'.$row['list_name'].'</p>';
+        $output .= '<h3>'.$row['list_name'].'</h3>';
     }
 
     echo $output;
@@ -60,7 +59,7 @@
                         foreach ($pieces as &$value) {
                             if ($value != '') {
                                 $update = "INSERT INTO listitems (quantity,itemId,listID) VALUES (1," . $value . ",1)";
-                                var_dump($update);
+                                //var_dump($update);
                                 $conn->query($update);
                             }
                         }
@@ -99,7 +98,7 @@
                     } else if ($deleted && $conn->query($update) === TRUE) {
                         $msg = "Item removed from list!";
                     } else {
-                        $msg = "Error updating record: " . $conn->error;
+                        $msg = "Error updating item: " . $conn->error;
                     }
                 }
             }
@@ -220,12 +219,16 @@
     <form action="list.php" method="post" id="add_item_form">
         <?php require ("Connection.php");
 
+        //JF I think this query works a bit better?
+        $sql = "SELECT i.id, i.item_name, i.price,i.use_sale_price,i.GST,i.PST,i.HST FROM grocerylist.items as i
+        WHERE NOT EXISTS (SELECT li.listid FROM grocerylist.listitems as li WHERE li.listid = 1 AND
+        li.itemID = i.id);";
 
-        $sql ="SELECT DISTINCT i.id, i.item_name, i.price,i.use_sale_price,i.GST,i.PST,i.HST
+        /*$sql ="SELECT DISTINCT i.id, i.item_name, i.price,i.use_sale_price,i.GST,i.PST,i.HST
 FROM grocerylist.items as i
 LEFT JOIN grocerylist.listitems
 ON i.id=grocerylist.listitems.itemID
-WHERE grocerylist.listitems.listID IS NULL OR grocerylist.listitems.listID !=1";
+WHERE grocerylist.listitems.listID IS NULL OR grocerylist.listitems.listID !=1";*/
 
 //        $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity
 //    FROM grocerylist.items as i

@@ -25,9 +25,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li class="active"><a href="#about">Item Bank</a></li>
+                <li><a href="list.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -54,11 +54,9 @@
                     $msg = "Item updated successfully!";
                 }
                 else {
-                    $msg =  "Error updating record: " . $conn->error;
+                    $msg =  "Error updating item: " . $conn->error;
                 }
             }
-
-
             echo $msg ?></h3>
     </div>
     <div id="itemBankList">

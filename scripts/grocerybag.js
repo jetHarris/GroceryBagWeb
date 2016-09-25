@@ -55,6 +55,7 @@ function rowClickedList(row){
     $('#gst_input').attr("checked", cells[5].innerHTML === '✅');
     $('#pst_input').attr("checked", cells[6].innerHTML === '✅');
     $('#hst_input').attr("checked", cells[7].innerHTML === '✅');
+    $('#quantity_input')[0].value = cells[8].innerHTML;
 
     $('#update_msg')[0].innerHTML = '';
     $('#editItemListForm').show();
