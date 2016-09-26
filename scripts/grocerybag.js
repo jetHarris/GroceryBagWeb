@@ -121,6 +121,10 @@ function rowClicked(row){
     $('#itemBankList').hide();
     $('#editItemBankForm').show();
     $('#update_item').show();
+    if (cells[8].innerHTML === 'yes')
+        $('#DeleteItemBankItem').show();
+    else
+        $('#DeleteItemBankItem').hide();
     $('#add_item').hide();
 }
 
@@ -142,6 +146,7 @@ function createItemClick(){
 
     $('#update_msg')[0].innerHTML = '';
     $('#itemBankList').hide();
+    $('#DeleteItemBankItem').hide();
     $('#editItemBankForm').show();
     $('#update_item').hide();
     $('#add_item').show();
