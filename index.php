@@ -1,8 +1,8 @@
 <html>
 <head>
     <meta http-equiv="pragma" content="no-cache" />
-    <link href="css/style.css" rel="stylesheet"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"/>
 
     <script src="scripts/jquery-3.1.0.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
@@ -12,7 +12,7 @@
     </title>
 </head>
 <body onload="setup();">
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -21,25 +21,50 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a href="#"><img src="img/baglogo.png" id="logo" width="150"/></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
-                <li class="active"><a href="#about">Item Bank</a></li>
+                <li class="active"><a href="index.php">Item Bank</a></li>
                 <li><a href="list.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
-<div class="container">
-<img src="img/baglogo.jpg" width="300px" height="200px"/>
+<div class="container" id="body-container">
+
 
 <div id="mainContainer">
     <div>
         <h3 id="update_msg"><?php require ("Connection.php");
-            if (isset($_POST['item_name'])){
+            if (isset($_POST['delete_item_bank_item']))
+            {
+                $id = $_POST['item_id'];
+                $checkIfDeletable = "SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = $id";
+                $check = mysqli_query($conn, $checkIfDeletable);
+                $row = mysqli_fetch_assoc($check);
+                $count = intval($row["COUNT(*)"]);
+
+                if($count !== 0)
+                {
+                    $msg = "Unable to delete, item is in use!";
+                }
+                else
+                {
+                    $sql = "DELETE FROM grocerylist.items WHERE id = $id;";
+                    if ($conn->query($sql) === TRUE) {
+                            $msg = "Item deleted!";
+                    }
+                    else{
+                        $msg = "Item not deleted! ".$conn->error;
+                    }
+                }
+
+            }
+
+            else if (isset($_POST['item_name'])){
                 $new_item_name = $_POST['item_name'];
                 $new_price = floatval((str_replace('$', '',$_POST['price'] )));
                 $new_sale_price = floatval((str_replace('$', '',$_POST['sales_price'] )));
@@ -71,8 +96,7 @@
     </div>
     <div id="itemBankList">
         <div>
-            <p>Filter:
-                <input type="text" id="filter" onkeyup="filterInput(this)"/></p>
+                <input type="text" id="filter" onkeyup="filterInput(this)" placeholder="Filter"/>
         </div>
 <?php require ("Connection.php");
 session_start();
@@ -83,55 +107,60 @@ session_start();
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 
-$sql= "SELECT * from grocerylist.items;";
+$sql= "SELECT i.*, (SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = i.id) as Count FROM grocerylist.items as i;";
 $check = mysqli_query($conn, $sql);
 
-$output = '<table border="1"><thead><tr><th class="id">ID</th>'.
+$output = '<table border="1"><thead><tr id="not-header"><th class="id">ID</th>'.
     '<th class="item">Item</th>'.
     '<th class="price">Price</th>'.
-    '<th class="price">Sale Price</th>'.
+    '<th class="sale-price">Sale Price</th>'.
     '<th class="checkmark">On Sale</th>'.
     '<th class="checkmarktax">GST</th>'.
     '<th class="checkmarktax">PST</th>'.
-    '<th class="checkmarktax">HST</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
+    '<th class="checkmarktax">HST</th></tr></thead></table><div id="itemBank" style="height:75%; overflow-y: auto; display: inline-block;"><table border="1" style="height: auto; maring-bottom: 0px;padding-bottom: 0px;">';
 
 while($row = mysqli_fetch_assoc($check)){
     $output .='<tr class="highlight" onclick="rowClicked(this)">';
     $output .= '<td class="id">'.$row['id'].'</td>';
     $output .= '<td class="item">'.$row['item_name'].'</td>';
     $output .= '<td class="price">$'.$row['price'].'</td>';
-    $output .= '<td class="price">$'.$row['sale_price'].'</td>';
+    $output .= '<td class="sale-price">$'.$row['sale_price'].'</td>';
     $output .= '<td class="checkmark">'.($row['use_sale_price'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['GST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
+
+    if ($row['Count'] == 0)
+        $output .= '<td class="hidden-cell">yes</td>';
+    else
+        $output .= '<td class="hidden-cell">no</td>';
     $output .='</tr>';
 }
 $output .='</tbody></table></div>';
 echo $output;
 ?>
         <div>
-            <input type="button" value="Create Item" onclick="createItemClick();" style="margin-top:15px;"/>
+            <input type="button" value="Create Item" class="button" onclick="createItemClick();" style="margin-bottom: 30px"/>
         </div>
     </div>
 
 <div id="editItemBankForm" style="display:none;">
     <form action="index.php" method="post" id="edit_item_form">
+    <div style="display:block; float:left; width:40%; padding-top:0px;">
         <div>
             <h3 id="item_id_div"></h3>
         </div>
         <div>
-            <label>Item Name:</label>
-            <input type="text" id="name_input" name="item_name" />
+            <input type="text" id="name_input" name="item_name" placeholder="Item Name"/>
         </div>
         <div>
-            <label>Price:</label>
-            <input type="text" id="price_input" name="price" />
+            <input type="text" id="price_input" name="price" placeholder="Price" />
         </div>
         <div>
-            <label>Sales Price:</label>
-            <input type="text" id="sale_price_input" name="sales_price" />
+            <input type="text" id="sale_price_input" name="sales_price" placeholder="Sales Price" />
         </div>
+    </div>
+    <div style="display:block; float:right; width:60%;padding-top:20px;">
         <div>
             <label>On Sale:</label>
             <input type="checkbox" name="on_sale" id="on_sale_input"/>
@@ -148,10 +177,12 @@ echo $output;
             <label>HST:</label>
             <input type="checkbox" name="hst" id ="hst_input" />
         </div>
-        <div>
+    </div>
+        <div style="clear:both;">
             <input type="submit" value="Save" id="update_item" name="update_item" style="display: none;"/>
-            <input type="submit" value="Add" id="add_item" name="add_item" style="display: none;"/>
-            <input type="button" value="Cancel" onclick="cancelClick();"/>
+            <input type="submit" value="Add" id="add_item" name="add_item" class="button" style="display: none;"/>
+            <input type="button" value="Cancel" class="button" onclick="cancelClick();"/>
+            <input type="submit" value="Delete" id="DeleteItemBankItem" name="delete_item_bank_item"/>
             <input type="hidden" value="-1" id="selected_item_id" name="item_id"/>
         </div>
     </form>
