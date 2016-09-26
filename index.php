@@ -26,14 +26,14 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
-                <li class="active"><a href="#about">Item Bank</a></li>
+                <li class="active"><a href="index.php">Item Bank</a></li>
                 <li><a href="list.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
-<div class="container">
+<div class="container" id="body-container">
 
 
 <div id="mainContainer">

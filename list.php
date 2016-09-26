@@ -1,8 +1,8 @@
 <html>
 <head>
     <meta http-equiv="pragma" content="no-cache" />
-    <link href="css/style.css" rel="stylesheet"/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"/>
 
     <script src="scripts/jquery-3.1.0.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
@@ -12,7 +12,7 @@
     </title>
 </head>
 <body onload="setup();">
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -21,13 +21,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a href="#"><img src="img/baglogo.png" id="logo" width="150"/></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <!--<li><a href="#home">Home</a></li>-->
+                <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="index.php">Item Bank</a></li>
-				<li class="active"><a href="#">List</a></li>
+                <li class="active"><a href="list.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -275,7 +275,7 @@ WHERE grocerylist.listitems.listID IS NULL OR grocerylist.listitems.listID !=1";
         }
         echo $output;
         ?>
-        <input type="button" value="Add Items" id="submit-button" onclick="addItemClick();"/>
+        <input type="button" value="Add Items" id="submit-button" class="button" onclick="addItemClick();"/>
     </form>
 </div>
 <div id="blank"></div>

@@ -8,7 +8,11 @@ tr:hover{
     background-color: #fff;
 }
 body{
-    padding-top:25%;
+    margin-top:150px;
+}
+
+.body-container{
+    margin-top:50px;
 }
 
 #logo {
@@ -125,4 +129,8 @@ td {
     font-family: Verdana, Serif;
     font-weight: normal;
     border: none;
+}
+
+.hidden-cell{
+    display:none;
 }
