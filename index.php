@@ -39,7 +39,32 @@
 <div id="mainContainer">
     <div>
         <h3 id="update_msg"><?php require ("Connection.php");
-            if (isset($_POST['item_name'])){
+            if (isset($_POST['delete_item_bank_item']))
+            {
+                $id = $_POST['item_id'];
+                $checkIfDeletable = "SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = $id";
+                $check = mysqli_query($conn, $checkIfDeletable);
+                $row = mysqli_fetch_assoc($check);
+                $count = intval($row["COUNT(*)"]);
+
+                if($count !== 0)
+                {
+                    $msg = "Unable to delete, item is in use!";
+                }
+                else
+                {
+                    $sql = "DELETE FROM grocerylist.items WHERE id = $id;";
+                    if ($conn->query($sql) === TRUE) {
+                            $msg = "Item deleted!";
+                    }
+                    else{
+                        $msg = "Item not deleted! ".$conn->error;
+                    }
+                }
+
+            }
+
+            else if (isset($_POST['item_name'])){
                 $new_item_name = $_POST['item_name'];
                 $new_price = floatval((str_replace('$', '',$_POST['price'] )));
                 $new_sale_price = floatval((str_replace('$', '',$_POST['sales_price'] )));
@@ -81,7 +106,7 @@ session_start();
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 
-$sql= "SELECT * from grocerylist.items;";
+$sql= "SELECT i.*, (SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = i.id) as Count FROM grocerylist.items as i;";
 $check = mysqli_query($conn, $sql);
 
 $output = '<table border="1"><thead><tr><th class="id">ID</th>'.
@@ -103,6 +128,11 @@ while($row = mysqli_fetch_assoc($check)){
     $output .= '<td class="checkmarktax">'.($row['GST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
+
+    if ($row['Count'] == 0)
+        $output .= '<td class="hidden-cell">yes</td>';
+    else
+        $output .= '<td class="hidden-cell">no</td>';
     $output .='</tr>';
 }
 $output .='</tbody></table></div>';
@@ -150,6 +180,7 @@ echo $output;
             <input type="submit" value="Save" id="update_item" name="update_item" style="display: none;"/>
             <input type="submit" value="Add" id="add_item" name="add_item" style="display: none;"/>
             <input type="button" value="Cancel" onclick="cancelClick();"/>
+            <input type="submit" value="Delete" id="DeleteItemBankItem" name="delete_item_bank_item"/>
             <input type="hidden" value="-1" id="selected_item_id" name="item_id"/>
         </div>
     </form>
