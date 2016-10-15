@@ -1,6 +1,6 @@
 <?php
 $username= "root";
-$password="no123456";
+$password="";
 $host="localhost";
 $dbName ="grocerylist";
 
