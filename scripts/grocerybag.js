@@ -83,6 +83,22 @@ function addItemClick(){
     $('#name_input')[0].value = "add";
     $('#submit-button')[0].click();
 }
+
+function checkClicked(element){
+    event.stopPropagation();
+    var checkB = element.firstChild;
+    var parent = element.parentElement;
+    var id = parent.getElementsByClassName("id")[0].innerText;
+    $('#id_input')[0].value = id;
+    if(checkB.checked){
+        $('#checking_input')[0].value = "checked";
+    }
+    else
+    {
+        $('#checking_input')[0].value = "unchecked";
+    }
+    $('#submit-button')[0].click();
+}
 function toggleCheckbox(element)
 {
     if (element.checked == true)

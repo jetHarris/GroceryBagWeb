@@ -44,36 +44,42 @@ INSERT INTO Lists (list_name, budget)
 INSERT INTO Lists (list_name, budget) 
     VALUES ('Jons Birthday', 99999.35);
 
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (12,1 ,1 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (7,2 ,2 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (5,3 ,3 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (2,4 ,1 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (1,5 ,2 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (2,6 ,3 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (8,7 ,1 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (9,8 ,2 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (10,9 ,3 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (6,10 ,1 );
-    
-INSERT INTO listitems (quantity, itemID, listID) 
-	VALUES (90,11 ,2 );
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (12,1 ,1,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (7,2 ,2,1 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (5,3 ,3,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (2,4 ,1,1 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (1,5 ,2,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (2,6 ,3,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (8,7 ,1,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (9,8 ,2,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (10,9 ,3,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (6,10 ,1,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (90,11 ,2,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (7,11 ,3,0 );
+
+INSERT INTO listitems (quantity, itemID, listID, checked)
+	VALUES (16,1 ,1,0 );
     

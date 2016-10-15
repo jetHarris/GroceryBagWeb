@@ -36,9 +36,16 @@
 <div class="container" id="main-container">
 <div>
     <?php require ("Connection.php");
+    $list_id;
+    if (isset($_GET['list_id']))
+    {
+        $list_id = $_GET['list_id'];
+    }
+    else{
+        $list_id= 1;
+    }
 
-
-    $sql= "SELECT list_name FROM grocerylist.Lists WHERE id = 1;";
+    $sql= "SELECT list_name FROM grocerylist.Lists WHERE id = $list_id;";
     $check = mysqli_query($conn, $sql);
     $output ='';
     while($row = mysqli_fetch_assoc($check)){
@@ -51,14 +58,14 @@
     </div>
     <div>
         <h3 id="update_msg"><?php require ("Connection.php");
-            if (isset($_POST['item_name'])){
+            if (isset($_POST['item_name']) && $_POST['item_name'] != "" ){
                 if ($_POST['adding'] != '')
                 {
                     if($_POST['adding'] != "stop") {
                         $pieces = explode(" ", $_POST['adding']);
                         foreach ($pieces as &$value) {
                             if ($value != '') {
-                                $update = "INSERT INTO listitems (quantity,itemId,listID) VALUES (1," . $value . ",1)";
+                                $update = "INSERT INTO listitems (quantity,itemId,listID) VALUES (1," . $value . ",$list_id)";
                                 //var_dump($update);
                                 $conn->query($update);
                             }
@@ -85,7 +92,7 @@
                         sale_price = $new_sale_price, use_sale_price=$on_sale, GST=$has_GST, PST=$has_PST, HST=$has_HST
                         WHERE id=$id;";
                         if(isset($_POST['quantity'])) {
-                            $second_update = "UPDATE listitems SET quantity = $quantity WHERE listID = 1 AND itemID = $id;";
+                            $second_update = "UPDATE listitems SET quantity = $quantity WHERE listID = $list_id AND itemID = $id;";
                         }
                     } else {
                         $deleted = true;
@@ -102,6 +109,20 @@
                     }
                 }
             }
+            else if (isset($_POST['id_i']))
+            {
+
+                $id = $_POST['id_i'];
+                if($_POST['checking'] == "checked")
+                {
+                    $updateC = "UPDATE listitems SET checked = 1 WHERE listID = $list_id AND itemID = $id;";
+                    $conn->query($updateC);
+                }
+                else if ($_POST['checking'] == "unchecked"){
+                    $updateC = "UPDATE listitems SET checked = 0 WHERE listID = $list_id AND itemID = $id;";
+                    $conn->query($updateC);
+                }
+            }
 
 
             echo $msg ?></h3>
@@ -109,13 +130,13 @@
     <div id="table-list">
         <?php require ("Connection.php");
 
-        $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity
+        $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity, li.checked
     FROM grocerylist.items as i
     INNER JOIN grocerylist.listitems as li
         ON i.id = li.itemID
     INNER JOIN grocerylist.lists as l
         ON li.listID = l.id
-    WHERE l.id = 1;";
+    WHERE l.id = $list_id;";
         $check = mysqli_query($conn, $sql);
 
         $sub_total = 0;
@@ -129,10 +150,12 @@
             '<th class="checkmarktax">GST</th>'.
             '<th class="checkmarktax">PST</th>'.
             '<th class="checkmarktax">HST</th>'.
-            '<th class="item">Quantity</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
+            '<th class="item">Quantity</th>'.
+            '<th class="item">Acquired</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
         while($row = mysqli_fetch_assoc($check)){
-            $output .='<tr class="highlight" onclick="rowClickedList(this)">';
+            var_dump($row['checked']=== '1');
+            $output .='<tr class="highlight'. ($row["checked"]=== "1" ? ' strikeout' : ''). '"onclick="rowClickedList(this)">';
             $output .= '<td class="id">'.$row['id'].'</td>';
             $output .= '<td class="item">'.$row['item_name'].'</td>';
             $output .= '<td class="price">$'.$row['price'].'</td>';
@@ -142,6 +165,7 @@
             $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
             $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
             $output .= '<td class="item">'.$row['quantity'].'</td>';
+            $output .= '<td class="item" onclick="checkClicked(this)"><input type="checkbox"'.($row['checked']=== '1' ? 'checked' : '').'/></td>';
             $output .='</tr>';
 
             $getTaxes= "SELECT GST, PST, HST FROM WHERE id = 1";
@@ -233,6 +257,14 @@
             <label >Adding:</label>
             <input type="text" name="adding" id ="adding_input" value='' />
         </div>
+        <div style="display:none">
+            <label >Checking:</label>
+            <input type="text" name="checking" id ="checking_input" value='' />
+        </div>
+        <div style="display:none">
+            <label >ID:</label>
+            <input type="text" name="id_i" id ="id_input" value='' />
+        </div>
         <div>
             <input type="submit" value="Save" id="submit-button"/>
             <input type="button" value="Cancel" onclick="cancelListClick();"/>
@@ -248,22 +280,9 @@
 
         //JF I think this query works a bit better?
         $sql = "SELECT i.id, i.item_name, i.price,i.use_sale_price,i.GST,i.PST,i.HST FROM grocerylist.items as i
-        WHERE NOT EXISTS (SELECT li.listid FROM grocerylist.listitems as li WHERE li.listid = 1 AND
+        WHERE NOT EXISTS (SELECT li.listid FROM grocerylist.listitems as li WHERE li.listid = $list_id AND
         li.itemID = i.id);";
 
-        /*$sql ="SELECT DISTINCT i.id, i.item_name, i.price,i.use_sale_price,i.GST,i.PST,i.HST
-FROM grocerylist.items as i
-LEFT JOIN grocerylist.listitems
-ON i.id=grocerylist.listitems.itemID
-WHERE grocerylist.listitems.listID IS NULL OR grocerylist.listitems.listID !=1";*/
-
-//        $sql= "SELECT i.id, i.item_name,i.price,i.sale_price,i.use_sale_price,i.GST,i.PST,i.HST, li.quantity
-//    FROM grocerylist.items as i
-//    INNER JOIN grocerylist.listitems as li
-//        ON i.id = li.itemID
-//    INNER JOIN grocerylist.lists as l
-//        ON li.listID = l.id
-//    WHERE l.id != 1;";
         $check = mysqli_query($conn, $sql);
 
         $output = '';
