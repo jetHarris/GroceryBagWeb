@@ -1,33 +1,136 @@
 tr:hover{
-    cursor: default;
-}
-.highlight:hover{
     cursor: pointer;
     background-color: lightblue;
 }
+
+#not-header:hover{
+    cursor: default;
+    background-color: #fff;
+}
 body{
-    padding-top:50px;
+    margin-top:150px;
+}
+
+.body-container{
+    margin-top:50px;
+}
+
+#logo {
+    width: 150px;
+    margin: 5px;
+    margin-bottom: 8px;
 }
 
 .id{
-    width:20px;
-
+    width:10%;
+    padding: 5px;
 }
 
 .item{
-    width:120px;
+    width:23%;
+    padding: 5px;
 }
 
 .price{
-    width:50px;
-    text-align: center;
+    width:17%;
+    padding: 5px;
+}
+
+.sale-price{
+    width:15%;
+    padding: 5px;
 }
 
 .checkmark{
-    width:60px;
-    text-align: center;
+    width:9%;
+    padding: 5px;
 }
 .checkmarktax{
-    width:40px;
+    width:8%;
+    padding: 5px;
+}
+
+label {
+    font-family: "Times New Roman", Georgia, Serif;
+    font-weight: normal;
+    font-size: 1.1em;
+}
+
+
+input {
+    margin-bottom: 5%;
+    margin-left: auto;
+    border-radius: 5px;
+    padding:5px 10px;
+    margin: 5px 5px 10px 0px;
+    box-shadow: none;
+    border: 2px solid #e7e7e7;
+}
+
+.button {
+    background-color: #FBCE18;
+    box-shadow: none;
+    border: 1px solid #e7e7e7;
+    padding:5px 10px;
+    margin: 5px 5px 5px 0px;
+    font-family: "Times New Roman", Georgia, Serif;
+    font-weight: normal;
+    font-size: 1.1em;
+    color: #F8F8FF;
+}
+
+.table-container {
+    width: 80%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table, thead {
+    width: 100%;
+    height: 100%;
+    align:center;
     text-align: center;
+    border: 1px solid #e7e7e7;
+    padding:10px;
+    font-weight:normal;
+
+    border-collapse:separate;
+    border-radius:6px;
+    -moz-border-radius:6px;
+}
+
+thead {
+    border-bottom: 0px;
+
+    border-collapse:separate;
+    border-radius:6px;
+    -moz-border-radius:6px;
+}
+
+
+th {
+    padding: 10px;
+    font-size: 0.9em;
+    text-align: center;
+    font-family: "Times New Roman", Georgia, Serif;
+    font-weight: normal;
+    border: 0px;
+}
+
+
+#itemBank {
+    width:100%;
+    height: 100%;
+}
+
+td {
+    font-size: 0.8em;
+    font-family: Verdana, Serif;
+    font-weight: normal;
+    border: none;
+}
+
+.hidden-cell{
+    display:none;
 }

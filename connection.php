@@ -1,6 +1,6 @@
 <?php
 $username= "root";
-$password="onomatopeia";
+$password="";
 $host="localhost";
 $dbName ="grocerylist";
 
