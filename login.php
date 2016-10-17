@@ -14,9 +14,9 @@ if(isset($_POST['firstname'])){
     if(empty($_POST['firstname']) || empty($_POST['lastname'])|| empty($_POST['password'])){
         echo 'Names or Password is empty!!';
     }else{
-        $firstname = $_POST['firstname'];
-        $lastname= $_POST['lastname'];
-        $password = $_POST['password'];
+        $firstname = mysqli_escape_string($_POST['firstname']);
+        $lastname= mysqli_escape_string($_POST['lastname']);
+        $password = mysqli_escape_string($_POST['password']);
     }
     if($firstname && $password){
         mysqli_select_db($conn, $dbName) or die("Could not find the database");

@@ -1,8 +1,8 @@
 <?php
 define (DB_USER, "root");
-define (DB_PASS,"j4m6cd781");
+define (DB_PASS,"");
 define (DB_HOST,"localhost");
-define (DB_NAME, "grocerylist");
+define (DB_NAME, "grocerylisttest");
 
 $conn = mysqli_connect( DB_HOST, DB_USER, DB_PASS, DB_NAME);
 mysqli_select_db($conn, $dbName);
