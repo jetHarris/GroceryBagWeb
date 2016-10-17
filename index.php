@@ -100,8 +100,10 @@
         </div>
 <?php require ("Connection.php");
 session_start();
-//$userID = $_SESSION['userID'];  //for when we need it
-//$_SESSION['userID']= $userID;
+//$userID = $_SESSION['userID'];   //until we have the code to grab it.
+//Err $_SESSION['userID'] = $userID;
+
+
 $name = $_SESSION['name'];
 echo "Welcome ".$name."!";
 
