@@ -1,0 +1,70 @@
+CREATE DATABASE IF NOT EXISTS grocerylist;
+
+use grocerylist;
+
+DROP TABLE IF EXISTS ListItems;
+DROP TABLE IF EXISTS Lists; 
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Items;
+DROP TABLE IF EXISTS Taxrates;
+
+
+DROP PROCEDURE IF EXISTS load_taxrates;
+DELIMITER //
+CREATE PROCEDURE load_taxrates()
+BEGIN
+	
+    
+	IF (SELECT COUNT(*) FROM grocerylist.taxrates) = 0 THEN
+		INSERT INTO taxrates (id, GST, PST, HST) VALUES (1, 5, 8, 13);
+	END IF;
+    
+END//
+DELIMITER ;
+
+CREATE TABLE Users (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+firstname VARCHAR(30) NOT NULL,
+lastname VARCHAR(30) NOT NULL,
+password VARCHAR(100) NOT NULL, 
+admin VARCHAR(3)
+);
+
+
+CREATE TABLE Items (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+item_name VARCHAR(50) NOT NULL,
+price DECIMAL(6,2),
+sale_price DECIMAL (6,2),
+use_sale_price BIT(1),
+GST BIT(1),
+PST BIT(1),
+HST BIT(1)
+);
+
+
+CREATE TABLE Lists(
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+list_name VARCHAR(50) NOT NULL,
+budget DECIMAL(6,2),
+list_owner_id INT(6) UNSIGNED,
+CONSTRAINT fk_owner FOREIGN KEY (list_owner_id) REFERENCES Users(id)
+);
+
+
+CREATE TABLE ListItems(
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+quantity INT(6),
+checked BIT(1),
+itemID INT(6) UNSIGNED,
+CONSTRAINT fk_items FOREIGN KEY (itemID) REFERENCES Items(id),
+listID INT(6) UNSIGNED, 
+CONSTRAINT fk_lists FOREIGN KEY (listID) REFERENCES Lists(id)
+); 
+
+CREATE TABLE TaxRates(
+id int(3) UNSIGNED PRIMARY KEY,
+GST INT(3),
+PST INT(3),
+HST INT(3)
+)
