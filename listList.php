@@ -145,7 +145,6 @@
             '</tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
         while($row = mysqli_fetch_assoc($check)){
-            var_dump($row['checked']=== '1');
             $output .='<tr class="highlight">';
             $output .= '<td class="id" onclick="editListListId(this)">'.$row['id'].'</td>';
             $output .= '<td class="item" onclick="rowClickedListList(this)">'.$row['list_name'].'</td>';
