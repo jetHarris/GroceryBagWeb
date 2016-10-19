@@ -7,7 +7,9 @@
     <script src="scripts/jquery-3.1.0.min.js"></script>
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/grocerybag.js"> </script>
-    <title>Grocery Bag</title>
+    <title>
+        Grocery Bag
+    </title>
 </head>
 <body onload="setup();">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -31,15 +33,6 @@
     </div>
 </nav>
 
-<<<<<<< HEAD
-<div class="container">
-<div>
-        <input type="text" id="filter" onkeyup="filterInput(this)" placeholder="Find"/>
-</div>
-<div class="table-container">
-
-
-=======
 <div class="container" id="body-container">
 
 
@@ -105,7 +98,6 @@
         <div>
                 <input type="text" id="filter" onkeyup="filterInput(this)" placeholder="Filter"/>
         </div>
->>>>>>> master
 <?php require ("Connection.php");
 session_start();
 //$userID = $_SESSION['userID'];   //until we have the code to grab it.
@@ -118,23 +110,6 @@ echo "Welcome ".$name."!";
 $sql= "SELECT i.*, (SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = i.id) as Count FROM grocerylist.items as i;";
 $check = mysqli_query($conn, $sql);
 
-<<<<<<< HEAD
-$output =
-    '<table border="1">
-        <thead><tr id="not-header"><th class="id">ID</th>'.
-            '<th class="item">Item</th>'.
-            '<th class="price">Price</th>'.
-            '<th class="sale-price">Sale Price</th>'.
-            '<th class="checkmark">Sale</th>'.
-            '<th class="checkmarktax">GST</th>'.
-            '<th class="checkmarktax">PST</th>'.
-            '<th class="checkmarktax">HST</th><!--'.
-    '<th id="th-spacer"></th>--></tr>
-        </thead>
-    <table>
-<div id="itemBank" style="height:100%; overflow-y: auto; display: inline-block;">
-<table border="1" style="height: auto;">';
-=======
 $output = '<table border="1"><thead><tr id="not-header"><th class="id">ID</th>'.
     '<th class="item">Item</th>'.
     '<th class="price">Price</th>'.
@@ -143,19 +118,14 @@ $output = '<table border="1"><thead><tr id="not-header"><th class="id">ID</th>'.
     '<th class="checkmarktax">GST</th>'.
     '<th class="checkmarktax">PST</th>'.
     '<th class="checkmarktax">HST</th></tr></thead></table><div id="itemBank" style="height:75%; overflow-y: auto; display: inline-block;"><table border="1" style="height: auto; maring-bottom: 0px;padding-bottom: 0px;">';
->>>>>>> master
 
 while($row = mysqli_fetch_assoc($check)){
-    $output .='<tr>';
+    $output .='<tr class="highlight" onclick="rowClicked(this)">';
     $output .= '<td class="id">'.$row['id'].'</td>';
     $output .= '<td class="item">'.$row['item_name'].'</td>';
     $output .= '<td class="price">$'.$row['price'].'</td>';
     $output .= '<td class="sale-price">$'.$row['sale_price'].'</td>';
-<<<<<<< HEAD
-    $output .= '<td  class="checkmark">'.($row['use_sale_price'] === '1' ? '&#9989;':'&#10008;').'</td>';
-=======
     $output .= '<td class="checkmark">'.($row['use_sale_price'] === '1' ? '&#9989;':'&#10008;').'</td>';
->>>>>>> master
     $output .= '<td class="checkmarktax">'.($row['GST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['PST'] === '1' ? '&#9989;':'&#10008;').'</td>';
     $output .= '<td class="checkmarktax">'.($row['HST'] === '1' ? '&#9989;':'&#10008;').'</td>';
@@ -169,9 +139,6 @@ while($row = mysqli_fetch_assoc($check)){
 $output .='</tbody></table></div>';
 echo $output;
 ?>
-<<<<<<< HEAD
-
-=======
         <div>
             <input type="button" value="Create Item" class="button" onclick="createItemClick();" style="margin-bottom: 30px"/>
         </div>
@@ -220,10 +187,8 @@ echo $output;
         </div>
     </form>
 </div>
->>>>>>> master
 </div>
 </div>
-<div id="blank"></div>
 </body>
 </html>
 
