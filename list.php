@@ -1,3 +1,4 @@
+<?php session_start()?>
 <html>
 <head>
     <meta http-equiv="pragma" content="no-cache" />
@@ -8,7 +9,7 @@
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/grocerybag.js"> </script>
     <title>
-        Grocery Bag List
+        Grocery Bag List 1
     </title>
 </head>
 <body onload="setup();">
@@ -40,10 +41,15 @@
     if (isset($_GET['list_id']))
     {
         $list_id = $_GET['list_id'];
+        $_SESSION['list_id'] = $list_id;
     }
     else{
         $list_id= 1;
     }
+
+    $list_id = $_SESSION['list_id'];
+
+    echo "List id: ".$list_id;
 
     $sql= "SELECT list_name FROM grocerylist.Lists WHERE id = $list_id;";
     $check = mysqli_query($conn, $sql);

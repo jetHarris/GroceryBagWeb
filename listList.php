@@ -179,6 +179,7 @@
         <div>
             <input type="submit" value="Save" id="submit-button"/>
             <input type="button" value="Cancel" onclick="cancelListListClick();"/>
+            <input type="button" value="Edit Items" id="editListBtn" onclick="editItemsOfList();"/>
             <input type="hidden" value="-1" id="listItemId" name="listItemId"/>
         </div>
     </form>

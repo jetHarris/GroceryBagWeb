@@ -94,6 +94,7 @@ function addViewClick(){
 function addViewListClick(){
     var id = $('#listItemId')[0];
     id.value = -1;
+    $('#editListBtn').hide();
     $('#addItemListForm').show();
 }
 
@@ -108,6 +109,8 @@ function editListListId(cell) {
     var list_name = $('#nameList_input')[0];
     var budget = $('#budget_input')[0];
     var id = $('#listItemId')[0];
+
+    $('#editListBtn').show();
 
     var cells = jCell.siblings('td');
     id.value = cell.innerHTML;
@@ -200,4 +203,11 @@ function createItemClick(){
     $('#editItemBankForm').show();
     $('#update_item').hide();
     $('#add_item').show();
+}
+
+function editItemsOfList()
+{
+    var id = $('#listItemId')[0];
+    var address = "list.php?list_id=" + id.value;
+    window.location.href = address;
 }
