@@ -27,7 +27,7 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="index.php">Item Bank</a></li>
-                <li class="active"><a href="list.php">List</a></li>
+                <li class="active"><a href="listlist.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -137,6 +137,8 @@
     INNER JOIN grocerylist.lists as l
         ON li.listID = l.id
     WHERE l.id = $list_id;";
+
+
         $check = mysqli_query($conn, $sql);
 
         $sub_total = 0;

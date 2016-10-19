@@ -28,10 +28,12 @@ if(isset($_POST['firstname'])){
                $dbFirst= $row['firstname'];
                $dbLast = $row['lastname'];
                $dbPass = $row['password'];
+               $user_id = $row['id'];
            }
            if($firstname == $dbFirst && $lastname==$dbLast && $password=$dbPass){
                echo "You are logged in";
                $_SESSION['name']= $firstname;
+               $_SESSION['user_id'] = $user_id;
                echo "<br>Welcome ".$_SESSION['name']."!";
                header('Location: index.php');
                //echo "<br><a href='index.php'>Redirect to Index Page</a>";

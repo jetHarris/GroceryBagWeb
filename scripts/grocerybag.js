@@ -62,10 +62,22 @@ function rowClickedList(row){
     $('#table-list').hide();
 }
 
+function rowClickedListList(cell){
+    var jCell = $(cell);
+    //var cells = jCell.siblings('td').find('.id');
+    var cells = jCell.closest('tr').children('td.id');
+    var listId = cells[0].innerHTML;
+    window.location.href = "list.php?list_id=" + listId;
+}
+
 function cancelListClick(){
     $('#editItemListForm').hide();
     $('#table-list').show();
     $('#addItemForm').hide();
+}
+
+function cancelListListClick(){
+    $('#addItemListForm').hide();
 }
 
 function removeClick(){
@@ -79,9 +91,31 @@ function addViewClick(){
     $('#addItemForm').show();
 }
 
+function addViewListClick(){
+    var id = $('#listItemId')[0];
+    id.value = -1;
+    $('#addItemListForm').show();
+}
+
 function addItemClick(){
     $('#name_input')[0].value = "add";
     $('#submit-button')[0].click();
+}
+
+function editListListId(cell) {
+    var jCell = $(cell);
+
+    var list_name = $('#nameList_input')[0];
+    var budget = $('#budget_input')[0];
+    var id = $('#listItemId')[0];
+
+    var cells = jCell.siblings('td');
+    id.value = cell.innerHTML;
+    list_name.value =  cells[0].innerHTML;
+    budget.value = cells[1].innerHTML;
+    $('#item_id_div')[0].innerHTML ='Item ID: ' +  id.value;
+    $('#addItemListForm').show();
+
 }
 
 function checkClicked(element){
