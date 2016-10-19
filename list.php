@@ -162,7 +162,6 @@
             '<th class="item">Acquired</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
         while($row = mysqli_fetch_assoc($check)){
-            var_dump($row['checked']=== '1');
             $output .='<tr class="highlight'. ($row["checked"]=== "1" ? ' strikeout' : ''). '"onclick="rowClickedList(this)">';
             $output .= '<td class="id">'.$row['id'].'</td>';
             $output .= '<td class="item">'.$row['item_name'].'</td>';
