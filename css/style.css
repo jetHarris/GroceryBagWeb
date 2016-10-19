@@ -8,11 +8,7 @@ tr:hover{
     background-color: #fff;
 }
 body{
-    margin-top:150px;
-}
-
-.body-container{
-    margin-top:50px;
+    padding-top:25%;
 }
 
 #logo {
@@ -32,9 +28,9 @@ body{
 }
 
 .price{
-    width:17%;
-    padding: 5px;
-}
+     width:17%;
+     padding: 5px;
+ }
 
 .sale-price{
     width:15%;
@@ -50,33 +46,12 @@ body{
     padding: 5px;
 }
 
-label {
-    font-family: "Times New Roman", Georgia, Serif;
-    font-weight: normal;
-    font-size: 1.1em;
-}
 
-
-input {
+#filter {
     margin-bottom: 5%;
     margin-left: auto;
     border-radius: 5px;
-    padding:5px 10px;
-    margin: 5px 5px 10px 0px;
-    box-shadow: none;
-    border: 2px solid #e7e7e7;
-}
-
-.button {
-    background-color: #FBCE18;
-    box-shadow: none;
-    border: 1px solid #e7e7e7;
-    padding:5px 10px;
-    margin: 5px 5px 5px 0px;
-    font-family: "Times New Roman", Georgia, Serif;
-    font-weight: normal;
-    font-size: 1.1em;
-    color: #F8F8FF;
+    padding-left: 5px;
 }
 
 .table-container {
@@ -85,10 +60,6 @@ input {
     margin-left: auto;
     margin-right: auto;
 }
-
-tr.strikeout  {
-    background: #ff3333;
- }
 
 table, thead {
     width: 100%;
@@ -117,7 +88,7 @@ th {
     padding: 10px;
     font-size: 0.9em;
     text-align: center;
-    font-family: "Times New Roman", Georgia, Serif;
+    font-family: "Times New Roman", Georgia, Serif ;
     font-weight: normal;
     border: 0px;
 }
@@ -133,8 +104,4 @@ td {
     font-family: Verdana, Serif;
     font-weight: normal;
     border: none;
-}
-
-.hidden-cell{
-    display:none;
 }

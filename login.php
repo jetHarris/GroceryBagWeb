@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-$error='';
+
 $firstname='';
 $lastname='';
 $password='';
@@ -14,9 +14,9 @@ if(isset($_POST['firstname'])){
     if(empty($_POST['firstname']) || empty($_POST['lastname'])|| empty($_POST['password'])){
         echo 'Names or Password is empty!!';
     }else{
-        $firstname = $_POST['firstname'];
-        $lastname= $_POST['lastname'];
-        $password = $_POST['password'];
+        $firstname = mysqli_escape_string($conn, $_POST['firstname']);
+        $lastname= mysqli_escape_string($conn, $_POST['lastname']);
+        $password = mysqli_escape_string($conn, $_POST['password']);
     }
     if($firstname && $password){
         mysqli_select_db($conn, $dbName) or die("Could not find the database");
@@ -37,7 +37,7 @@ if(isset($_POST['firstname'])){
                //echo "<br><a href='index.php'>Redirect to Index Page</a>";
            }else{
                echo "Your credentials do not match";
-               echo "<br><a href='signin.html'>Try and Sign In Again</a>";
+               echo "<br><a href='login.html'>Try and Sign In Again</a>";
            }
         }//end numrows
         else if($numrows ==0){
