@@ -49,7 +49,7 @@ if(isset($_POST['firstname'])){
     }
     else{
         echo "<br>That User does not exist";
-        echo "<br>Please Register a New USer";
+        echo "<br>Please Register a New User";
     }
 }//end $_POST['submit']
 ?>
