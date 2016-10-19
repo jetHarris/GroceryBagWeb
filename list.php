@@ -1,3 +1,4 @@
+<?php session_start()?>
 <html>
 <head>
     <meta http-equiv="pragma" content="no-cache" />
@@ -8,7 +9,7 @@
     <script src="scripts/bootstrap.min.js"></script>
     <script src="scripts/grocerybag.js"> </script>
     <title>
-        Grocery Bag List
+        Grocery Bag List 1
     </title>
 </head>
 <body onload="setup();">
@@ -27,7 +28,7 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="index.php">Item Bank</a></li>
-                <li class="active"><a href="list.php">List</a></li>
+                <li class="active"><a href="listlist.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -40,10 +41,15 @@
     if (isset($_GET['list_id']))
     {
         $list_id = $_GET['list_id'];
+        $_SESSION['list_id'] = $list_id;
     }
     else{
         $list_id= 1;
     }
+
+    $list_id = $_SESSION['list_id'];
+
+    echo "List id: ".$list_id;
 
     $sql= "SELECT list_name FROM grocerylist.Lists WHERE id = $list_id;";
     $check = mysqli_query($conn, $sql);
@@ -137,6 +143,8 @@
     INNER JOIN grocerylist.lists as l
         ON li.listID = l.id
     WHERE l.id = $list_id;";
+
+
         $check = mysqli_query($conn, $sql);
 
         $sub_total = 0;
@@ -154,7 +162,6 @@
             '<th class="item">Acquired</th></tr></thead></table><div id="itemBank" style="height:100px; overflow-y: auto; display: inline-block;"><table border="1">';
 
         while($row = mysqli_fetch_assoc($check)){
-            var_dump($row['checked']=== '1');
             $output .='<tr class="highlight'. ($row["checked"]=== "1" ? ' strikeout' : ''). '"onclick="rowClickedList(this)">';
             $output .= '<td class="id">'.$row['id'].'</td>';
             $output .= '<td class="item">'.$row['item_name'].'</td>';
