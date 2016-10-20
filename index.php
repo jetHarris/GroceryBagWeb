@@ -104,8 +104,13 @@ session_start();
 //Err $_SESSION['userID'] = $userID;
 
 
-$name = $_SESSION['name'];
-echo "Welcome ".$name."!";
+
+if(isset($_SESSION['name'])&& isset($_SESSION['password'])) {
+    $name = $_SESSION['name'];
+    echo "Welcome " . $name . "!";
+}
+else
+    header('Location: login.html');
 
 $sql= "SELECT i.*, (SELECT COUNT(*) FROM grocerylist.listitems WHERE itemid = i.id) as Count FROM grocerylist.items as i;";
 $check = mysqli_query($conn, $sql);
