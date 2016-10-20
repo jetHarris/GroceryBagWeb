@@ -27,7 +27,7 @@
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li class="active"><a href="index.php">Item Bank</a></li>
-                <li><a href="list.php">List</a></li>
+                <li><a href="listlist.php">List</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
